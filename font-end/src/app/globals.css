@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Kanit Font Face ── */
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Thin.ttf') format('truetype'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-ThinItalic.ttf') format('truetype'); font-weight: 100; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-ExtraLight.ttf') format('truetype'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-ExtraLightItalic.ttf') format('truetype'); font-weight: 200; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-LightItalic.ttf') format('truetype'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-MediumItalic.ttf') format('truetype'); font-weight: 500; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-SemiBoldItalic.ttf') format('truetype'); font-weight: 600; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-BoldItalic.ttf') format('truetype'); font-weight: 700; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-ExtraBoldItalic.ttf') format('truetype'); font-weight: 800; font-style: italic; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; }
+@font-face { font-family: 'Kanit'; src: url('../assets/fonts/Kanit-BlackItalic.ttf') format('truetype'); font-weight: 900; font-style: italic; }
+
+/* ── Light Mode (Warm Pastel) ── */
+:root {
+  --bg-primary:    #F8F1EA;
+  --bg-secondary:  #F0E9E0;
+  --surface:       #FAF5EF;
+  --surface-2:     #F0E8DF;
+  --border:        #E4D9CB;
+  --border-strong: #D2C3B0;
+  --divider:       #F0E4D9;
+  
+  --accent-blue:   #9BC6FF;
+  --accent-green:  #9FE3C8;
+  --accent-pink:   #FFB5C9;
+  
+  --text-1:        #3A2C27;
+  --text-2:        #6F5F57;
+  --pattern:       #D2C3B0;
+  
+  --shadow:        rgba(120, 80, 60, 0.10);
+  --shadow-md:     rgba(120, 80, 60, 0.16);
+}
+
+/* ── Dark Mode (Pastel Dark) ── */
+.dark {
+  --bg-primary:    #1C1A2E;
+  --bg-secondary:  #24213A;
+  --surface:       #2C2947;
+  --surface-2:     #36335A;
+  --border:        #46416F;
+  --border-strong: #5E597F;
+  --divider:       #2F2C4A;
+  
+  --accent-blue:   #8EB8FF;
+  --accent-green:  #8ED9B9;
+  --accent-pink:   #F4A8C8;
+  
+  --text-1:        #F0EDF9;
+  --text-2:        #B8B3D0;
+  --pattern:       #B8B3D0;
+  
+  --shadow:        rgba(15, 12, 35, 0.45);
+  --shadow-md:     rgba(15, 12, 35, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cline x1='28' y1='28' x2='72' y2='72' stroke='%23D2C3B0' stroke-width='1.5' stroke-dasharray='4 5' stroke-linecap='round' opacity='0.7'/%3E%3Cline x1='72' y1='28' x2='28' y2='72' stroke='%23D2C3B0' stroke-width='1.5' stroke-dasharray='4 5' stroke-linecap='round' opacity='0.7'/%3E%3C/svg%3E");
+  color: var(--text-1);
+  font-family: 'Kanit', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cline x1='28' y1='28' x2='72' y2='72' stroke='%23B8B3D0' stroke-width='1.5' stroke-dasharray='4 5' stroke-linecap='round' opacity='0.35'/%3E%3Cline x1='72' y1='28' x2='28' y2='72' stroke='%23B8B3D0' stroke-width='1.5' stroke-dasharray='4 5' stroke-linecap='round' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-2); }
+
+::selection {
+  background: rgba(152, 215, 242, 0.35);
+  color: var(--text-1);
+}

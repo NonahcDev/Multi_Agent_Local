@@ -1,0 +1,22 @@
+{
+  "generate_code": {
+    "success": 2,
+    "total": 2,
+    "success_rate": 1.0
+  },
+  "write_file": {
+    "success": 2,
+    "total": 2,
+    "success_rate": 1.0
+  },
+  "read_file": {
+    "success": 0,
+    "total": 1,
+    "success_rate": 0.0
+  },
+  "validate_output": {
+    "success": 0,
+    "total": 1,
+    "success_rate": 0.0
+  }
+}

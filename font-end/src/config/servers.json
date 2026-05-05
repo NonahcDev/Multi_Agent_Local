@@ -1,0 +1,30 @@
+{
+  "servers": [
+    {
+      "id": "global",
+      "name": "Global Agent",
+      "ipAddress": "127.0.0.1",
+      "hasGpu": false,
+      "statusPort": 5000,
+      "ollamaPort": 11434,
+      "role": "global"
+    },
+    {
+      "id": "0",
+      "name": "Leviathan",
+      "ipAddress": "192.168.1.43",
+      "hasGpu": false,
+      "statusPort": 5000,
+      "ollamaPort": 11434
+    },
+    {
+      "id": "1",
+      "name": "Leviathan",
+      "ipAddress": "192.168.1.43",
+      "hasGpu": false,
+      "statusPort": 5000,
+      "backend": "n8n",
+      "n8nWebhookUrl": "http://192.168.1.43:5678/webhook/chat"
+    }
+  ]
+}
