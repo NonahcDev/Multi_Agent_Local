@@ -191,171 +191,177 @@ export default function AppShell() {
     }
   }, []);
 
-  const showTopBar = activeTab === "dashboard" || activeTab === "agents";
-
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "var(--bg-primary)" }}>
-      {/* grid background — only on agent-related tabs */}
-      {showTopBar && (
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div
-            className="absolute inset-0 bg-grid-pattern bg-grid"
-            style={{ opacity: isDark ? 0.12 : 0.25 }}
-          />
-        </div>
-      )}
+      {/* grid background — always visible for consistent feel */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute inset-0 bg-grid-pattern bg-grid"
+          style={{ opacity: isDark ? 0.12 : 0.25 }}
+        />
+      </div>
 
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden relative">
-        {showTopBar && <TopBar stats={stats} wsStatus={wsStatus} />}
+        {/* TopBar always visible — keeps layout consistent across all tabs */}
+        <TopBar stats={stats} wsStatus={wsStatus} />
 
-        {/* ── Dashboard ── */}
-        {activeTab === "dashboard" && (
-          <main className="flex-1 overflow-y-auto p-5 space-y-5">
-            <div>
-              <h1 className="text-lg font-mono font-bold tracking-wide" style={{ color: "var(--text-1)" }}>
-                Dashboard
-              </h1>
-              <p className="text-xs font-mono mt-0.5" style={{ color: "var(--text-2)" }}>
-                {stats.activeAgents} active · {allAgents.length} total · mesh v1.0
-              </p>
-            </div>
-
-            {globalAgent ? (
-              <GlobalAgentCard
-                agent={globalAgent}
-                workerAgents={agents}
-                onRunTask={(prompt) => handleRunTask(globalAgent.id, prompt)}
-                isSelected={selectedAgentId === globalAgent.id}
-                onSelect={() => selectAgent(selectedAgentId === globalAgent.id ? null : globalAgent.id)}
-              />
-            ) : (
-              <div
-                className="flex flex-col items-center justify-center py-20 rounded-xl border"
-                style={{ borderColor: "var(--border)", backgroundColor: "var(--surface)" }}
-              >
-                <p className="text-sm font-mono" style={{ color: "var(--text-2)" }}>No global agent connected</p>
-              </div>
-            )}
-          </main>
-        )}
-
-        {/* ── Agents Cluster ── */}
-        {activeTab === "agents" && (
-          <main className="flex-1 overflow-y-auto p-5 space-y-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-lg font-mono font-bold tracking-wide" style={{ color: "var(--text-1)" }}>
-                  Agents Cluster
-                </h1>
-                <p className="text-xs font-mono mt-0.5" style={{ color: "var(--text-2)" }}>
-                  {stats.activeAgents} active · {agents.length} total · mesh v1.0
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {/* Grid / Network toggle */}
-                <div
-                  className="flex rounded-lg border p-0.5"
-                  style={{ borderColor: "var(--border)", backgroundColor: "var(--surface)" }}
-                >
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono transition-all"
-                    style={{
-                      backgroundColor: viewMode === "grid" ? `${accentBlue}20` : "transparent",
-                      color: viewMode === "grid" ? accentBlue : "var(--text-2)",
-                    }}
-                  >
-                    <LayoutGrid className="w-3.5 h-3.5" />
-                    Grid
-                  </button>
-                  <button
-                    onClick={() => setViewMode("network")}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono transition-all"
-                    style={{
-                      backgroundColor: viewMode === "network" ? `${accentBlue}20` : "transparent",
-                      color: viewMode === "network" ? accentBlue : "var(--text-2)",
-                    }}
-                  >
-                    <Network className="w-3.5 h-3.5" />
-                    Network
-                  </button>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.14, ease: "easeOut" }}
+            className="flex-1 min-w-0 overflow-hidden flex flex-col"
+          >
+            {/* ── Dashboard ── */}
+            {activeTab === "dashboard" && (
+              <main className="flex-1 overflow-y-auto p-5 space-y-5">
+                <div>
+                  <h1 className="text-lg font-mono font-bold tracking-wide" style={{ color: "var(--text-1)" }}>
+                    Dashboard
+                  </h1>
+                  <p className="text-xs font-mono mt-0.5" style={{ color: "var(--text-2)" }}>
+                    {stats.activeAgents} active · {allAgents.length} total · mesh v1.0
+                  </p>
                 </div>
 
-                {/* Add Agent */}
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all"
-                  style={{
-                    backgroundColor: `${accentBlue}18`,
-                    border: `1px solid ${accentBlue}40`,
-                    color: accentBlue,
-                  }}
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  Add Agent
-                </motion.button>
-              </div>
-            </div>
-
-            {viewMode === "network" && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <NetworkTopology
-                  agents={agents}
-                  selectedId={selectedAgentId}
-                  onSelect={(id) => selectAgent(selectedAgentId === id ? null : id)}
-                  width={880}
-                  height={420}
-                />
-              </motion.div>
+                {globalAgent ? (
+                  <GlobalAgentCard
+                    agent={globalAgent}
+                    workerAgents={agents}
+                    onRunTask={(prompt) => handleRunTask(globalAgent.id, prompt)}
+                    isSelected={selectedAgentId === globalAgent.id}
+                    onSelect={() => selectAgent(selectedAgentId === globalAgent.id ? null : globalAgent.id)}
+                  />
+                ) : (
+                  <div
+                    className="flex flex-col items-center justify-center py-20 rounded-xl border"
+                    style={{ borderColor: "var(--border)", backgroundColor: "var(--surface)" }}
+                  >
+                    <p className="text-sm font-mono" style={{ color: "var(--text-2)" }}>No global agent connected</p>
+                  </div>
+                )}
+              </main>
             )}
 
-            <motion.div
-              layout
-              className="grid gap-4"
-              style={{ gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}
-            >
-              {agents.map((agent) => (
-                <AgentCard
-                  key={agent.id}
-                  agent={agent}
-                  isSelected={selectedAgentId === agent.id}
-                  onSelect={() => selectAgent(selectedAgentId === agent.id ? null : agent.id)}
-                  onAssignTask={() => setModalAgentId(agent.id)}
-                />
-              ))}
-            </motion.div>
-          </main>
-        )}
+            {/* ── Agents Cluster ── */}
+            {activeTab === "agents" && (
+              <main className="flex-1 overflow-y-auto p-5 space-y-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-lg font-mono font-bold tracking-wide" style={{ color: "var(--text-1)" }}>
+                      Agents Cluster
+                    </h1>
+                    <p className="text-xs font-mono mt-0.5" style={{ color: "var(--text-2)" }}>
+                      {stats.activeAgents} active · {agents.length} total · mesh v1.0
+                    </p>
+                  </div>
 
-        {/* ── Presets ── */}
-        {activeTab === "presets" && <PresetsView />}
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="flex rounded-lg border p-0.5"
+                      style={{ borderColor: "var(--border)", backgroundColor: "var(--surface)" }}
+                    >
+                      <button
+                        onClick={() => setViewMode("grid")}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono transition-all"
+                        style={{
+                          backgroundColor: viewMode === "grid" ? `${accentBlue}20` : "transparent",
+                          color: viewMode === "grid" ? accentBlue : "var(--text-2)",
+                        }}
+                      >
+                        <LayoutGrid className="w-3.5 h-3.5" />
+                        Grid
+                      </button>
+                      <button
+                        onClick={() => setViewMode("network")}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono transition-all"
+                        style={{
+                          backgroundColor: viewMode === "network" ? `${accentBlue}20` : "transparent",
+                          color: viewMode === "network" ? accentBlue : "var(--text-2)",
+                        }}
+                      >
+                        <Network className="w-3.5 h-3.5" />
+                        Network
+                      </button>
+                    </div>
 
-        {/* ── Database ── */}
-        {activeTab === "database" && <DatabaseView />}
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all"
+                      style={{
+                        backgroundColor: `${accentBlue}18`,
+                        border: `1px solid ${accentBlue}40`,
+                        color: accentBlue,
+                      }}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      Add Agent
+                    </motion.button>
+                  </div>
+                </div>
 
-        {/* ── Placeholder tabs ── */}
-        {PLACEHOLDER_TABS.includes(activeTab) && (
-          <div className="flex-1 flex flex-col items-center justify-center gap-3">
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{ backgroundColor: `${accentBlue}12`, border: `1px solid ${accentBlue}25` }}
-            >
-              <span className="text-xl font-mono font-black" style={{ color: accentBlue }}>?</span>
-            </div>
-            <p className="text-sm font-mono font-bold capitalize" style={{ color: "var(--text-1)" }}>
-              {activeTab.replace("-", " ")}
-            </p>
-            <p className="text-xs font-mono" style={{ color: "var(--text-2)" }}>Coming soon</p>
-          </div>
-        )}
+                {viewMode === "network" && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <NetworkTopology
+                      agents={agents}
+                      selectedId={selectedAgentId}
+                      onSelect={(id) => selectAgent(selectedAgentId === id ? null : id)}
+                      width={880}
+                      height={420}
+                    />
+                  </motion.div>
+                )}
+
+                <motion.div
+                  layout
+                  className="grid gap-4"
+                  style={{ gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}
+                >
+                  {agents.map((agent) => (
+                    <AgentCard
+                      key={agent.id}
+                      agent={agent}
+                      isSelected={selectedAgentId === agent.id}
+                      onSelect={() => selectAgent(selectedAgentId === agent.id ? null : agent.id)}
+                      onAssignTask={() => setModalAgentId(agent.id)}
+                    />
+                  ))}
+                </motion.div>
+              </main>
+            )}
+
+            {/* ── Presets ── */}
+            {activeTab === "presets" && <PresetsView />}
+
+            {/* ── Database ── */}
+            {activeTab === "database" && <DatabaseView />}
+
+            {/* ── Placeholder tabs ── */}
+            {PLACEHOLDER_TABS.includes(activeTab) && (
+              <div className="flex-1 flex flex-col items-center justify-center gap-3">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  style={{ backgroundColor: `${accentBlue}12`, border: `1px solid ${accentBlue}25` }}
+                >
+                  <span className="text-xl font-mono font-black" style={{ color: accentBlue }}>?</span>
+                </div>
+                <p className="text-sm font-mono font-bold capitalize" style={{ color: "var(--text-1)" }}>
+                  {activeTab.replace("-", " ")}
+                </p>
+                <p className="text-xs font-mono" style={{ color: "var(--text-2)" }}>Coming soon</p>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Modals */}
