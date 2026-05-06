@@ -24,7 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from core.agent_registry import registry
 from core.websocket_manager import manager
-from routers import health, agents, tasks, ws, global_agent
+from routers import health, agents, tasks, ws, global_agent, presets
 
 # ------------------------------------------------------------------ #
 # Logging                                                             #
@@ -59,6 +59,7 @@ app.include_router(agents.router)
 app.include_router(tasks.router)
 app.include_router(ws.router)
 app.include_router(global_agent.router)
+app.include_router(presets.router)
 
 
 # ------------------------------------------------------------------ #

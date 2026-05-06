@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import {
-  LayoutDashboard, Workflow, Server, HardDrive, Network,
-  FileText, Settings, Activity, Database,
+  LayoutDashboard, Workflow, Server, HardDrive, BookMarked,
+  FileText, Settings, Activity, Database, Network,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,7 +14,7 @@ const MAIN_NAV = [
   { icon: Workflow,        label: "Workflows",      href: "#" },
   { icon: Server,          label: "Agents Cluster", href: "#" },
   { icon: HardDrive,       label: "Models Hub",     href: "#" },
-  { icon: Network,         label: "Knowledge Base", href: "#" },
+  { icon: BookMarked,      label: "Presets",        href: "/presets" },
   { icon: Activity,        label: "Hardware",       href: "#" },
   { icon: Network,         label: "Network",        href: "#" },
   { icon: Database,        label: "Database",       href: "/database" },

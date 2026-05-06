@@ -39,7 +39,9 @@
       "Bash(Select-Object Name)",
       "Bash(py --version)",
       "Bash(.venv\\\\Scripts\\\\python.exe -m pip install -r requirements.txt)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(chmod +x /Volumes/500GB/MyProject/Multi_Agent_Local/git.sh)",
+      "Bash(/Volumes/500GB/MyProject/Multi_Agent_Local/git.sh up *)"
     ]
   }
 }
