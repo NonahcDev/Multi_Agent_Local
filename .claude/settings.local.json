@@ -41,7 +41,13 @@
       "Bash(.venv\\\\Scripts\\\\python.exe -m pip install -r requirements.txt)",
       "Bash(npx next *)",
       "Bash(chmod +x /Volumes/500GB/MyProject/Multi_Agent_Local/git.sh)",
-      "Bash(/Volumes/500GB/MyProject/Multi_Agent_Local/git.sh up *)"
+      "Bash(/Volumes/500GB/MyProject/Multi_Agent_Local/git.sh up *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git stash *)",
+      "Bash(git pull *)"
     ]
   }
 }
